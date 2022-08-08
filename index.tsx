@@ -9,14 +9,20 @@ const React = {
 };
 
 const ReactDOM = {
-  render: function (reactElement, container: HTMLElement) {
+  render: function (reactElementOrStringOrNumber, container: HTMLElement) {
     const actualDOMElement: HTMLElement = document.createElement(
-      reactElement.tag
+      reactElementOrStringOrNumber.tag
     );
+    if (['string', 'number'].includes(typeof reactElementOrStringOrNumber)) {
+      container.appendChild(
+        document.createTextNode(String(reactElementOrStringOrNumber))
+      );
+      return;
+    }
 
     const {
       props: { children, ...restProps },
-    } = reactElement;
+    } = reactElementOrStringOrNumber;
     for (let key in restProps) {
       if (['__self', '__source'].includes(key)) {
         continue;
@@ -24,11 +30,7 @@ const ReactDOM = {
       actualDOMElement[key] = restProps[key];
     }
 
-    if (children.length === 1 && typeof children[0] === 'string') {
-      actualDOMElement.textContent = children[0];
-    }
-
-    if (children.length >= 1 && typeof children[0] === 'object') {
+    if (children.length > 0) {
       children.forEach((child) => {
         this.render(child, actualDOMElement);
       });
@@ -38,27 +40,14 @@ const ReactDOM = {
   },
 };
 const App = () => (
-  // Finally createElement for parent is called and all the children element objects are pushed as children prop for parent
-  <div className='parent'>
-    {/* createElement for deepest children is called first for a sibling to build children objects. */}
-    <p>Hello World</p>
+  <div class='parent'>
+    <h1>Building React from Scratch</h1>
     <ul>
-      <li>Tomato</li>
-      <li>Potato</li>
-      <li>Brinjal</li>
+      <li>Building createElement</li>
+      <li>Buildind render</li>
     </ul>
-
-    <div
-      class='playground'
-      style='height:300px;width:200px;border:1px solid black;padding:16px;background:beige'
-    >
-      <div>
-        <form>
-          <input type='text' name='name' />
-          <button type='submit'>Submit</button>
-        </form>
-      </div>
-    </div>
+    <span>Copyright 2022</span>
+    Hello World
   </div>
 );
 
