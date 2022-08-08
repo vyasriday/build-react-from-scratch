@@ -17,7 +17,6 @@ const ReactDOM = {
     const {
       props: { children, ...restProps },
     } = reactElement;
-    console.log('children: ', children);
     for (let key in restProps) {
       if (['__self', '__source'].includes(key)) {
         continue;
@@ -34,7 +33,7 @@ const ReactDOM = {
         this.render(child, actualDOMElement);
       });
     }
-    console.log(actualDOMElement);
+
     container.appendChild(actualDOMElement);
   },
 };
@@ -48,6 +47,18 @@ const App = () => (
       <li>Potato</li>
       <li>Brinjal</li>
     </ul>
+
+    <div
+      class='playground'
+      style='height:300px;width:200px;border:1px solid black;padding:16px;background:beige'
+    >
+      <div>
+        <form>
+          <input type='text' name='name' />
+          <button type='submit'>Submit</button>
+        </form>
+      </div>
+    </div>
   </div>
 );
 
