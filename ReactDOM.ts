@@ -1,3 +1,5 @@
+import { stateCursor, globalState } from './index';
+
 export default {
   render: function (reactElementOrStringOrNumber, container: HTMLElement) {
     const actualDOMElement: HTMLElement = document.createElement(

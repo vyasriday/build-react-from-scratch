@@ -1,8 +1,8 @@
 import ReactDOM from './ReactDOM';
 import './index.css';
 
-const globalState = [];
-let stateCursor = 0;
+export const globalState = [];
+export let stateCursor = 0;
 const React = {
   createElement: function (type, props, ...children) {
     if (typeof type === 'function') {
@@ -15,6 +15,7 @@ const React = {
     const FROZENCURSOR = stateCursor;
     globalState[FROZENCURSOR] = globalState[FROZENCURSOR] || initialState;
     let setState = (newState) => {
+      // setState for every useState call has closure over FROZENCURSOR for that call and each setState exactly knows which index it has to update.
       globalState[FROZENCURSOR] = newState;
       // for this to work we need to set stateCursor to zero in re-render
       rerender();
@@ -59,7 +60,6 @@ const Counter = () => {
 
 // just for re rendering after state update. React doesn't work like this for re-rendering
 export const rerender = () => {
-  console.log(globalState);
   stateCursor = 0;
   document.querySelector('#app').firstChild.remove();
   ReactDOM.render(<App />, document.querySelector('#app'));
